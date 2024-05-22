@@ -1,0 +1,18 @@
+services:
+  nginx-auth-proxy:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      args:
+        HOST_ARCH: x86_64
+    environment:
+      SERVER_NAME: localhost
+      PROXY_PASS: "http://web-server:80"
+      AUTHORIZATION_HEADER_REGEXP: "Token sampleapitoken"
+    links:
+      - web-server
+    ports:
+      - 3000:80
+
+  web-server:
+    image: nginx:alpine
